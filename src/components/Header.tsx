@@ -27,6 +27,7 @@ export default function Header() {
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
+    <>
     <header className="site-header">
       <div className="page-progress" aria-hidden="true" />
       <div className="container site-header__inner">
@@ -63,7 +64,10 @@ export default function Header() {
           <Icon name={open ? "close" : "menu"} size={24} />
         </button>
       </div>
+    </header>
 
+      {/* Kept outside <header>: the header's backdrop-filter would otherwise become the
+          containing block for this fixed overlay and clip it to the header bar. */}
       <div id="mobile-menu" className={`mobile-menu ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <nav aria-label="Mobile">
           <ul>
@@ -81,6 +85,6 @@ export default function Header() {
           </a>
         </nav>
       </div>
-    </header>
+    </>
   );
 }

@@ -444,7 +444,9 @@ textarea {
 .mobile-menu {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 99; /* just below .site-header (100) so logo + close button stay on top */
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--navy-950);
   padding: calc(var(--header-h) + 24px) var(--gutter) 40px;
   clip-path: circle(0% at calc(100% - 44px) 38px);
@@ -492,6 +494,11 @@ textarea {
 .menu-open .site-header {
   background: transparent;
   box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.menu-open .page-progress {
+  opacity: 0;
 }
 
 @media (max-width: 960px) {
