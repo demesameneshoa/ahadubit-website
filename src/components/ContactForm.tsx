@@ -31,17 +31,12 @@ export default function ContactForm() {
     }
 
     const subject = `Website enquiry${interest ? ` — ${interest}` : ""}${org ? ` (${org})` : ""}`;
-    const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      phone && `Phone: ${phone}`,
-      org && `Organization: ${org}`,
-      interest && `Interested in: ${interest}`,
-      "",
-      message,
-    ]
-      .filter((l) => l !== false && l !== "")
-      .join("\n");
+    const lines: string[] = [`Name: ${name}`, `Email: ${email}`];
+    if (phone) lines.push(`Phone: ${phone}`);
+    if (org) lines.push(`Organization: ${org}`);
+    if (interest) lines.push(`Interested in: ${interest}`);
+    lines.push("", message);
+    const body = lines.join("\n");
 
     window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setStatus("ready");
