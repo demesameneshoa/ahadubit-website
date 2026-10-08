@@ -3,6 +3,8 @@ on:
   push:
     branches: ["perf-*"]
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   measure:
     runs-on: ubuntu-latest
@@ -12,11 +14,20 @@ jobs:
         with:
           node-version: 22
       - run: npm install --no-audit --no-fund
-      - run: npm run build
+      - run: npm run build 2>&1 | tee build.txt
       - run: npx --yes playwright@1.48.2 install chromium
-      - name: Start server
+      - run: npm i --no-save playwright@1.48.2
+      - name: Measure
         run: |
           npx next start -p 3000 &
           npx --yes wait-on@8 http://localhost:3000 --timeout 60000
-      - run: npm i --no-save playwright@1.48.2
-      - run: node scripts/measure.mjs http://localhost:3000/
+          node scripts/measure.mjs http://localhost:3000/ > measure.txt 2>&1 || true
+          curl -s http://localhost:3000/ > home.html
+      - name: Publish results
+        if: always()
+        run: |
+          mkdir -p /tmp/out && cp build.txt measure.txt home.html /tmp/out/ 2>/dev/null || true
+          echo "${GITHUB_SHA}" > /tmp/out/sha.txt
+          cd /tmp/out && git init -q -b measure-results && git add -A
+          git -c user.name=ci -c user.email=ci@example.com commit -q -m "results ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" measure-results
