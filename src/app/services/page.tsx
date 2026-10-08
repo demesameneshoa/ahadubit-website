@@ -114,7 +114,7 @@ export default function ServicesPage() {
             </ol>
           </div>
           <div className="center" data-reveal="up">
-            <Link href="/portfolio" className="link-arrow">
+            <Link prefetch={false} href="/portfolio" className="link-arrow">
               See the results in our portfolio <Icon name="arrow" size={18} />
             </Link>
           </div>

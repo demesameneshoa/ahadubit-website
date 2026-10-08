@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Icon from "@/components/Icon";
 import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/ContactForm";
+import MapEmbed from "@/components/MapEmbed";
 import { company } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -10,7 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(company.mapQuery)}&output=embed`;
   return (
     <>
       <PageHero
@@ -75,13 +75,8 @@ export default function ContactPage() {
                 </div>
               </li>
             </ul>
-            <div className="map" data-reveal="up">
-              <iframe
-                title="Map showing Ahadubit Technologies near Megenagna, Addis Ababa"
-                src={mapSrc}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+            <div data-reveal="up">
+              <MapEmbed query={company.mapQuery} label="AB Star Building, Megenagna, Addis Ababa" />
             </div>
           </div>
 
