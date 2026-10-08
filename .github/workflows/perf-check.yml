@@ -1,0 +1,40 @@
+name: perf-check
+on:
+  push:
+    branches: ["perf-*"]
+permissions:
+  contents: write
+jobs:
+  email-test:
+    runs-on: ubuntu-latest
+    services:
+      mailhog:
+        image: mailhog/mailhog
+        ports: ["1025:1025", "8025:8025"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund 2>&1 | tail -5 | tee install.txt
+      - run: npm run build 2>&1 | tee build.txt
+      - run: npx --yes playwright@1.48.2 install chromium && npm i --no-save playwright@1.48.2
+      - name: Test contact form end to end
+        env:
+          SMTP_HOST: localhost
+          SMTP_PORT: "1025"
+          SMTP_USER: info@ahadubit.com
+          SMTP_PASS: test-password
+        run: |
+          npx next start -p 3000 > server.txt 2>&1 &
+          npx --yes wait-on@8 http://localhost:3000 --timeout 60000
+          node scripts/email-test.mjs > test.txt 2>&1 || true
+          cat test.txt
+      - name: Publish results
+        if: always()
+        run: |
+          mkdir -p /tmp/out && cp install.txt build.txt test.txt server.txt /tmp/out/ 2>/dev/null || true
+          echo "${GITHUB_SHA}" > /tmp/out/sha.txt
+          cd /tmp/out && git init -q -b measure-results && git add -A
+          git -c user.name=ci -c user.email=ci@example.com commit -q -m "results ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" measure-results

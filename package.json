@@ -2,7 +2,7 @@
   "name": "ahadubit-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Corporate website for Ahadubit Technologies PLC — Solutions for Tomorrow.",
+  "description": "Corporate website for Ahadubit Technologies PLC \u2014 Solutions for Tomorrow.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,13 +11,15 @@
   "dependencies": {
     "next": "^15.5.9",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "nodemailer": "^7.0.6"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "@types/nodemailer": "^7.0.1"
   },
   "engines": {
     "node": ">=18.18.0"
