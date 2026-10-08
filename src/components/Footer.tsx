@@ -25,7 +25,7 @@ export default function Footer() {
           <ul className="site-footer__list">
             {nav.map((n) => (
               <li key={n.href}>
-                <Link href={n.href}>{n.label}</Link>
+                <Link prefetch={false} href={n.href}>{n.label}</Link>
               </li>
             ))}
           </ul>
@@ -36,7 +36,7 @@ export default function Footer() {
           <ul className="site-footer__list">
             {services.slice(0, 6).map((s) => (
               <li key={s.slug}>
-                <Link href={`/services#${s.slug}`}>{s.title}</Link>
+                <Link prefetch={false} href={`/services#${s.slug}`}>{s.title}</Link>
               </li>
             ))}
           </ul>

@@ -31,7 +31,7 @@ export default function Header() {
     <header className="site-header">
       <div className="page-progress" aria-hidden="true" />
       <div className="container site-header__inner">
-        <Link href="/" className="brand" aria-label="Ahadubit Technologies — home">
+        <Link prefetch={false} href="/" className="brand" aria-label="Ahadubit Technologies — home">
           <Image src="/brand/logo.png" alt="Ahadubit Technologies" width={468} height={108} priority className="brand__logo brand__logo--dark" />
           <Image src="/brand/logo-light.png" alt="" width={468} height={108} priority className="brand__logo brand__logo--light" />
         </Link>
@@ -40,7 +40,7 @@ export default function Header() {
           <ul>
             {nav.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className={isActive(item.href) ? "is-active" : undefined} aria-current={isActive(item.href) ? "page" : undefined}>
+                <Link prefetch={false} href={item.href} className={isActive(item.href) ? "is-active" : undefined} aria-current={isActive(item.href) ? "page" : undefined}>
                   {item.label}
                 </Link>
               </li>
@@ -48,7 +48,7 @@ export default function Header() {
           </ul>
         </nav>
 
-        <Link href="/contact" className="btn btn--primary btn--sm site-header__cta">
+        <Link prefetch={false} href="/contact" className="btn btn--primary btn--sm site-header__cta">
           Get in touch
           <Icon name="arrow" size={16} />
         </Link>
@@ -73,7 +73,7 @@ export default function Header() {
           <ul>
             {nav.map((item, i) => (
               <li key={item.href} style={{ transitionDelay: open ? `${80 + i * 50}ms` : "0ms" }}>
-                <Link href={item.href} tabIndex={open ? 0 : -1} className={isActive(item.href) ? "is-active" : undefined}>
+                <Link prefetch={false} href={item.href} tabIndex={open ? 0 : -1} className={isActive(item.href) ? "is-active" : undefined}>
                   <span className="mobile-menu__num">0{i + 1}</span>
                   {item.label}
                 </Link>

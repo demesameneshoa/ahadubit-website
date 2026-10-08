@@ -15,14 +15,14 @@ export default function CTA({
       <div className="container">
         <div className="cta__panel" data-reveal="scale">
           <div className="cta__waves">
-            <Waves tone="dark" lines={26} seed={2.2} />
+            <Waves variant="cta" />
           </div>
           <div className="cta__content">
             <p className="eyebrow eyebrow--light">Let&apos;s talk</p>
             <h2 className="cta__title">{title}</h2>
             <p className="cta__text">{text}</p>
             <div className="cta__actions">
-              <Link href="/contact" className="btn btn--primary">
+              <Link prefetch={false} href="/contact" className="btn btn--primary">
                 Start a project
                 <Icon name="arrow" size={18} />
               </Link>

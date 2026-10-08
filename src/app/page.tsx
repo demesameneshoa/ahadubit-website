@@ -20,7 +20,7 @@ export default function HomePage() {
       {/* HERO */}
       <section className="hero">
         <div className="hero__bg" data-parallax="0.12">
-          <Waves tone="dark" lines={46} seed={0.6} />
+          <Waves variant="hero" eager />
         </div>
         <div className="hero__glow" aria-hidden="true" />
         <div className="container hero__inner">
@@ -37,11 +37,11 @@ export default function HomePage() {
               networking and hardware integration — designed for today and ready for what comes next.
             </p>
             <div className="hero__actions" data-reveal="up" data-delay="240">
-              <Link href="/contact" className="btn btn--primary">
+              <Link prefetch={false} href="/contact" className="btn btn--primary">
                 Start a project
                 <Icon name="arrow" size={18} />
               </Link>
-              <Link href="/portfolio" className="btn btn--ghost-light">
+              <Link prefetch={false} href="/portfolio" className="btn btn--ghost-light">
                 See our work
               </Link>
             </div>
@@ -61,7 +61,7 @@ export default function HomePage() {
               <ul className="orbit__items">
                 {orbit.map((s, i) => (
                   <li key={s.slug} style={{ ["--i" as string]: i, ["--n" as string]: orbit.length } as React.CSSProperties}>
-                    <Link href={`/services#${s.slug}`} className="orbit__chip">
+                    <Link prefetch={false} href={`/services#${s.slug}`} className="orbit__chip">
                       <Icon name={s.icon} size={20} />
                       <span>{s.title.replace(" Development", "").replace(" Solutions", "")}</span>
                     </Link>
@@ -125,7 +125,7 @@ export default function HomePage() {
               As the IT industry grows more dynamic, we build solutions that work efficiently on today&apos;s standards and keep
               working as our clients expand and transform.
             </p>
-            <Link href="/about" className="link-arrow" data-reveal="up" data-delay="240">
+            <Link prefetch={false} href="/about" className="link-arrow" data-reveal="up" data-delay="240">
               More about Ahadubit <Icon name="arrow" size={18} />
             </Link>
           </div>
@@ -152,7 +152,7 @@ export default function HomePage() {
           <ul className="service-grid" data-stagger="70">
             {services.map((s, i) => (
               <li key={s.slug} data-reveal="up">
-                <Link href={`/services#${s.slug}`} className="service-card" data-spotlight>
+                <Link prefetch={false} href={`/services#${s.slug}`} className="service-card" data-spotlight>
                   <span className="service-card__num">{String(i + 1).padStart(2, "0")}</span>
                   <span className="service-card__icon">
                     <Icon name={s.icon} size={28} />
@@ -183,7 +183,7 @@ export default function HomePage() {
               We pair deep Odoo and software experience with a practical understanding of how Ethiopian organizations
               operate — so systems go live faster and keep paying off.
             </p>
-            <Link href="/contact" className="btn btn--dark" data-reveal="up" data-delay="180">
+            <Link prefetch={false} href="/contact" className="btn btn--dark" data-reveal="up" data-delay="180">
               Talk to our team
               <Icon name="arrow" size={18} />
             </Link>
@@ -207,7 +207,7 @@ export default function HomePage() {
       {/* FEATURED WORK */}
       <section className="section section--dark work">
         <div className="work__waves" aria-hidden="true">
-          <Waves tone="dark" lines={24} seed={3.1} />
+          <Waves variant="work" />
         </div>
         <div className="container">
           <div className="section-head">
@@ -219,7 +219,7 @@ export default function HomePage() {
                 Systems in production across Ethiopia
               </h2>
             </div>
-            <Link href="/portfolio" className="btn btn--ghost-light" data-reveal="up" data-delay="120">
+            <Link prefetch={false} href="/portfolio" className="btn btn--ghost-light" data-reveal="up" data-delay="120">
               Full portfolio
               <Icon name="arrow" size={18} />
             </Link>
