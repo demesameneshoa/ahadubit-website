@@ -22,7 +22,9 @@ const nextConfig: NextConfig = {
           defaultVendors: false,
           app: {
             name: "app",
-            test: /[\\/]/,
+            // JavaScript modules only: CSS must stay in Next's own CSS chunks,
+            // otherwise it gets loaded as a <script>.
+            test: (module: { type?: string }) => !String(module.type ?? "").startsWith("css"),
             chunks: (chunk: { name?: string | null }) => !/^(polyfills|main|pages\/_app)$/.test(chunk.name ?? ""),
             enforce: true,
             priority: 50,
