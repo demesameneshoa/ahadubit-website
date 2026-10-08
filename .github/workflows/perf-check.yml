@@ -1,0 +1,22 @@
+name: perf-check
+on:
+  push:
+    branches: ["perf-*"]
+  workflow_dispatch:
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - run: npx --yes playwright@1.48.2 install chromium
+      - name: Start server
+        run: |
+          npx next start -p 3000 &
+          npx --yes wait-on@8 http://localhost:3000 --timeout 60000
+      - run: npm i --no-save playwright@1.48.2
+      - run: node scripts/measure.mjs http://localhost:3000/
