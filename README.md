@@ -29,7 +29,19 @@ Brand assets are in `public/brand/` (logo, white-text logo for dark backgrounds,
 
 ## Contact form
 
-The form validates input and opens the visitor's email app with the message addressed to `info@ahadubit.com`. To receive submissions directly instead, connect a form service (e.g. Formspree, Resend) in `src/components/ContactForm.tsx`.
+Enquiries are sent directly to **info@ahadubit.com** by the server route `src/app/api/contact/route.ts` (validation, spam honeypot and rate limiting included). Visitors just click **Send** — no email app opens. Replies go straight to the visitor because their address is set as *Reply-To*.
+
+Set these in **Vercel → Project → Settings → Environment Variables**, then redeploy:
+
+| Variable | Value |
+|---|---|
+| `SMTP_HOST` | Your mail server hostname — in cPanel: *Email Accounts → info@ahadubit.com → Connect Devices → Outgoing Server*. (Don't use `mail.ahadubit.com`: it now points at Vercel.) |
+| `SMTP_PORT` | `465` |
+| `SMTP_USER` | `info@ahadubit.com` |
+| `SMTP_PASS` | the password of the info@ahadubit.com mailbox |
+| `CONTACT_TO` | *(optional)* a different recipient, e.g. `sales@ahadubit.com` |
+
+Alternatively set `RESEND_API_KEY` and `RESEND_FROM` to send through [Resend](https://resend.com) instead of SMTP.
 
 ## Local development
 

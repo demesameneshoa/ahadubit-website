@@ -4,47 +4,83 @@ import { useState } from "react";
 import { company, services } from "@/data/site";
 import Icon from "./Icon";
 
-type Status = "idle" | "error" | "ready";
+type Status = "idle" | "sending" | "sent" | "failed";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [serverError, setServerError] = useState("");
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") || "").trim();
-    const email = String(data.get("email") || "").trim();
-    const org = String(data.get("organization") || "").trim();
-    const phone = String(data.get("phone") || "").trim();
-    const interest = String(data.get("interest") || "").trim();
-    const message = String(data.get("message") || "").trim();
+    if (status === "sending") return;
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const get = (k: string) => String(fd.get(k) || "").trim();
+    const payload = {
+      name: get("name"),
+      email: get("email"),
+      organization: get("organization"),
+      phone: get("phone"),
+      interest: get("interest"),
+      message: get("message"),
+      website: get("website"), // honeypot
+    };
 
     const next: Record<string, string> = {};
-    if (!name) next.name = "Please enter your name.";
-    if (!/^\S+@\S+\.\S+$/.test(email)) next.email = "Please enter a valid email address.";
-    if (message.length < 10) next.message = "Tell us a little more (at least 10 characters).";
+    if (!payload.name) next.name = "Please enter your name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) next.email = "Please enter a valid email address.";
+    if (payload.message.length < 10) next.message = "Tell us a little more (at least 10 characters).";
     setErrors(next);
-    if (Object.keys(next).length) {
-      setStatus("error");
-      return;
+    setServerError("");
+    if (Object.keys(next).length) return;
+
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json: { ok?: boolean; error?: string; errors?: Record<string, string> } = await res.json().catch(() => ({}));
+      if (res.ok && json.ok) {
+        setStatus("sent");
+        form.reset();
+        return;
+      }
+      if (json.errors) setErrors(json.errors);
+      setServerError(json.error || `Sorry, your message couldn't be sent. Please email us at ${company.email}.`);
+      setStatus("failed");
+    } catch {
+      setServerError(`Network problem — please check your connection, or email us at ${company.email}.`);
+      setStatus("failed");
     }
-
-    const subject = `Website enquiry${interest ? ` — ${interest}` : ""}${org ? ` (${org})` : ""}`;
-    const lines: string[] = [`Name: ${name}`, `Email: ${email}`];
-    if (phone) lines.push(`Phone: ${phone}`);
-    if (org) lines.push(`Organization: ${org}`);
-    if (interest) lines.push(`Interested in: ${interest}`);
-    lines.push("", message);
-    const body = lines.join("\n");
-
-    window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setStatus("ready");
-    e.currentTarget.reset();
   }
 
+  if (status === "sent") {
+    return (
+      <div className="contact-form__success" role="status">
+        <span className="contact-form__success-icon" aria-hidden="true">
+          <Icon name="check" size={28} strokeWidth={2.4} />
+        </span>
+        <h3>Thank you — your message is on its way.</h3>
+        <p>Our team will get back to you shortly. For anything urgent, call {company.phones[0]}.</p>
+        <button type="button" className="btn btn--dark btn--sm" onClick={() => setStatus("idle")}>
+          Send another message
+        </button>
+      </div>
+    );
+  }
+
+  const sending = status === "sending";
+
   return (
-    <form className="contact-form" onSubmit={onSubmit} noValidate>
+    <form className="contact-form" onSubmit={onSubmit} noValidate aria-busy={sending}>
+      {/* Honeypot field: hidden from people, tempting for spam bots */}
+      <div className="hp" aria-hidden="true">
+        <label htmlFor="cf-website">Website</label>
+        <input id="cf-website" name="website" tabIndex={-1} autoComplete="off" />
+      </div>
       <div className="field-row">
         <div className={`field ${errors.name ? "has-error" : ""}`}>
           <label htmlFor="cf-name">Full name *</label>
@@ -84,14 +120,21 @@ export default function ContactForm() {
         <textarea id="cf-message" name="message" rows={5} aria-invalid={!!errors.message} aria-describedby={errors.message ? "cf-message-err" : undefined} />
         {errors.message && <p id="cf-message-err" className="field__error">{errors.message}</p>}
       </div>
-      <button type="submit" className="btn btn--primary btn--block">
-        Send message
-        <Icon name="arrow" size={18} />
+      <button type="submit" className="btn btn--primary btn--block" disabled={sending}>
+        {sending ? (
+          <>
+            <span className="spinner" aria-hidden="true" />
+            Sending…
+          </>
+        ) : (
+          <>
+            Send message
+            <Icon name="arrow" size={18} />
+          </>
+        )}
       </button>
-      <p className="contact-form__note" role="status">
-        {status === "ready"
-          ? "Your email app should open with the message ready to send. If it doesn't, write to info@ahadubit.com."
-          : "Submitting opens your email app with your message addressed to our team."}
+      <p className={`contact-form__note ${serverError ? "is-error" : ""}`} role={serverError ? "alert" : "status"}>
+        {serverError || `Your message goes straight to our team at ${company.email}.`}
       </p>
     </form>
   );
