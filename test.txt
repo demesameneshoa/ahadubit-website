@@ -1,0 +1,32 @@
+##### tonic.hostns.io  -> 91.204.209.17 
+port 465: OPEN
+port 587: OPEN
+port 25: OPEN
+--- TLS on 465:
+CONNECTION ESTABLISHED
+Protocol version: TLSv1.3
+Ciphersuite: TLS_AES_256_GCM_SHA384
+Peer certificate: CN = tonic.hostns.io
+Hash used: SHA256
+Signature type: RSA-PSS
+Verification: OK
+Server Temp Key: X25519, 253 bits
+--- cert names on 465:
+subject=CN = tonic.hostns.io
+X509v3 Subject Alternative Name: 
+    DNS:tonic.hostns.io
+--- STARTTLS on 587 banner/EHLO:
+CONNECTION ESTABLISHED
+Protocol version: TLSv1.3
+Ciphersuite: TLS_AES_256_GCM_SHA384
+Peer certificate: CN = tonic.hostns.io
+Hash used: SHA256
+Signature type: RSA-PSS
+/home/runner/work/_temp/5b2d735c-9546-4633-8fba-c2821e4f3512.sh: line 12: echo: write error: Broken pipe
+##### ns1.hostns.io  -> 75.2.86.204 
+port 465: closed/timeout
+port 587: closed/timeout
+port 25: closed/timeout
+--- TLS on 465:
+--- cert names on 465:
+--- STARTTLS on 587 banner/EHLO:
