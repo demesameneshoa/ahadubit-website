@@ -5,7 +5,7 @@ import { company } from "@/data/site";
 // Sends website enquiries straight to the company inbox.
 //
 // Configure in Vercel → Project → Settings → Environment Variables:
-//   SMTP_HOST     your mail server's hostname (from cPanel → Email Accounts → Connect Devices)
+//   SMTP_HOST     your mail server's hostname, e.g. tonic.hostns.io (NOT the ns1/ns2 name servers)
 //   SMTP_PORT     465 (SSL) or 587 (STARTTLS)          — default 465
 //   SMTP_USER     the mailbox that sends, e.g. info@ahadubit.com
 //   SMTP_PASS     that mailbox's password
@@ -107,6 +107,10 @@ export async function POST(req: Request) {
         port,
         secure: port === 465,
         auth: { user: SMTP_USER, pass: SMTP_PASS },
+        // Fail fast with a clear error instead of hanging the visitor's request.
+        connectionTimeout: 15000,
+        greetingTimeout: 10000,
+        socketTimeout: 20000,
       });
       await transporter.sendMail({
         from: { name: "Ahadubit Website", address: SMTP_USER },

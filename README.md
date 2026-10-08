@@ -35,7 +35,7 @@ Set these in **Vercel → Project → Settings → Environment Variables**, then
 
 | Variable | Value |
 |---|---|
-| `SMTP_HOST` | Your mail server hostname — in cPanel: *Email Accounts → info@ahadubit.com → Connect Devices → Outgoing Server*. (Don't use `mail.ahadubit.com`: it now points at Vercel.) |
+| `SMTP_HOST` | `tonic.hostns.io` — the mail server hosting info@ahadubit.com. (Not `ns1.hostns.io`, which is a name server, and not `mail.ahadubit.com`, which now points at Vercel.) |
 | `SMTP_PORT` | `465` |
 | `SMTP_USER` | `info@ahadubit.com` |
 | `SMTP_PASS` | the password of the info@ahadubit.com mailbox |
