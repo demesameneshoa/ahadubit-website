@@ -169,15 +169,9 @@ p {
   text-wrap: pretty;
 }
 
-/* Large text sizes: long words wrap instead of pushing the page sideways */
-h1,
-h2,
-h3,
-p,
-li,
-dd,
-a,
-button {
+/* Large text sizes: long words wrap instead of pushing the page sideways
+   (inherited by everything). */
+body {
   overflow-wrap: break-word;
   hyphens: auto;
 }

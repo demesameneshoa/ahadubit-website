@@ -42,7 +42,7 @@ for (const scheme of ["light", "dark"]) {
     await page.waitForTimeout(300);
     const res = await page.evaluate(() => {
       const over = document.documentElement.scrollWidth - window.innerWidth;
-      const bad = [...document.querySelectorAll("h1,h2,h3,p,a,button,li")].filter((el) => el.getBoundingClientRect().right > window.innerWidth + 2).slice(0, 4).map((el) => el.tagName + "." + el.className + ":" + el.textContent.trim().slice(0, 30));
+      const bad = [...document.querySelectorAll("body *")].filter((el) => !el.closest(".hero__waves, .hp, .sr-only")).filter((el) => el.getBoundingClientRect().right > window.innerWidth + 2).slice(0, 4).map((el) => el.tagName + "." + el.className + ":" + el.textContent.trim().slice(0, 30));
       return { over, bad };
     });
     log(res.over <= 1, `200% text ${p}: hOverflow=${res.over}px ${res.bad.join(" | ")}`);
