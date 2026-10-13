@@ -167,6 +167,19 @@ p {
   text-wrap: pretty;
 }
 
+/* Large text sizes: long words wrap instead of pushing the page sideways */
+h1,
+h2,
+h3,
+p,
+li,
+dd,
+a,
+button {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -1298,6 +1311,7 @@ textarea {
 }
 .project-card__top {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
@@ -1676,7 +1690,8 @@ textarea {
   gap: 12px;
   flex-wrap: wrap;
   padding-block: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)) no-repeat center top /
+    calc(100% - 2 * var(--gutter)) 1px;
   font-size: var(--text-caption);
 }
 .site-footer__bottom p {

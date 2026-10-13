@@ -52,6 +52,15 @@ for (const scheme of ["light", "dark"]) {
   await ctx.close();
 }
 
+// Viewport shot of the services page (sticky sidebar)
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(base + "/services", { waitUntil: "networkidle" });
+  await page.mouse.wheel(0, 700); await page.waitForTimeout(900);
+  await page.screenshot({ path: "shots/services-viewport.png" });
+  await page.close();
+}
+
 // Functional checks
 {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
