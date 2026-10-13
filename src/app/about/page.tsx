@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Icon from "@/components/Icon";
 import PageHero from "@/components/PageHero";
 import CTA from "@/components/CTA";
@@ -12,9 +11,9 @@ export const metadata: Metadata = {
 };
 
 const audiences = [
-  { title: "Service providers", text: "Hotels, events and service businesses that need connected, reliable operations." },
-  { title: "Private manufacturers", text: "Factories that run purchase, production, quality and maintenance on one ERP." },
-  { title: "Government agencies", text: "Public bodies modernizing HR, citizen service, surveillance and communications." },
+  { icon: "spark" as const, title: "Service providers", text: "Hotels, events and service businesses that need connected, reliable operations." },
+  { icon: "industry" as const, title: "Private manufacturers", text: "Factories that run purchase, production, quality and maintenance on one ERP." },
+  { icon: "network" as const, title: "Government agencies", text: "Public bodies modernizing HR, citizen service, surveillance and communications." },
 ];
 
 export default function AboutPage() {
@@ -22,79 +21,61 @@ export default function AboutPage() {
     <>
       <PageHero
         crumb="About"
-        eyebrow="About Ahadubit"
-        title={
-          <>
-            Solutions for <span className="hl">tomorrow</span>, delivered today.
-          </>
-        }
-        intro="Since 2019 we have helped companies in Ethiopia transform their day-to-day activities with automation — and we're still serving them with complete satisfaction."
+        title="Solutions for tomorrow, delivered today."
+        intro="Since 2019, Ahadubit has helped companies in Ethiopia transform their day-to-day work with automation — and still serves them today."
       />
 
       {/* STORY */}
-      <section className="section">
+      <section className="section section--tight-top">
         <div className="container story">
-          <div className="story__aside" data-reveal="right">
-            <div className="story__badge">
-              <Image src="/brand/mark.png" alt="" width={256} height={256} />
-              <div>
-                <strong>Est. {company.founded}</strong>
-                <span>Addis Ababa, Ethiopia</span>
-              </div>
-            </div>
-            <dl className="story__facts">
-              <div>
-                <dt>Organizations served</dt>
-                <dd>
-                  <span data-count={projects.length} data-suffix="+">
-                    {projects.length}+
-                  </span>
-                </dd>
-              </div>
-              <div>
-                <dt>Odoo experience</dt>
-                <dd>
-                  <span data-count="5" data-suffix="+ yrs">
-                    5+ yrs
-                  </span>
-                </dd>
-              </div>
-            </dl>
-          </div>
           <div className="story__body">
-            <p className="eyebrow" data-reveal="up">
-              Our story
-            </p>
-            <h2 className="section-title" data-reveal="up" data-delay="60">
-              Ideas that serve Ethiopian companies.
+            <h2 className="section-title" data-reveal>
+              Ideas that serve Ethiopian companies
             </h2>
-            <p className="lead" data-reveal="up" data-delay="120">
-              Ahadubit Technologies PLC was founded in 2019. From the start, we invested our resources in coming up with
-              ideas that could serve companies in Ethiopia and transform their day-to-day activities with automation.
+            <p className="lead" data-reveal>
+              Ahadubit Technologies PLC was founded in {company.founded} to build ideas that serve companies in Ethiopia
+              and transform their day-to-day activities with automation.
             </p>
-            <p data-reveal="up" data-delay="160">
-              Since our establishment, we have served — and still serve — companies across many industries: manufacturers
-              running Odoo-based ERP, hotels streaming IPTV to every room, universities registering students online, and
-              government bureaus connecting citizens with experts through video intercom.
+            <p data-reveal>
+              Since then, we have served companies across many industries: manufacturers running Odoo-based ERP, a hotel
+              streaming IPTV to every room, a university registering students online, and a government bureau connecting
+              citizens with experts through video intercom.
             </p>
-            <p data-reveal="up" data-delay="200">
-              We act as a technology partner in every aspect: software, hardware, networks and the cloud, delivered by one team
-              that stays with you after go-live.
+            <p data-reveal>
+              We act as one technology partner for software, hardware, networks and the cloud — and we stay with clients
+              after go-live.
             </p>
           </div>
+          <dl className="facts facts--stacked" data-reveal>
+            <div>
+              <dt>Founded</dt>
+              <dd>{company.founded}</dd>
+            </div>
+            <div>
+              <dt>Organizations served</dt>
+              <dd>{projects.length}+</dd>
+            </div>
+            <div>
+              <dt>Odoo experience</dt>
+              <dd>5+ years</dd>
+            </div>
+            <div>
+              <dt>Based in</dt>
+              <dd>Addis Ababa</dd>
+            </div>
+          </dl>
         </div>
       </section>
 
       {/* MISSION / PHILOSOPHY */}
-      <section className="section section--tint">
+      <section className="section section--grouped">
         <div className="container mp">
-          <article className="mp__card" data-reveal="up" data-spotlight>
-            <span className="mp__icon">
-              <Icon name="target" size={30} />
+          <article className="mp__card" data-reveal>
+            <span className="mp__icon" aria-hidden="true">
+              <Icon name="target" size={26} />
             </span>
-            <p className="eyebrow">Mission</p>
-            <h2 className="mp__title">Where we&apos;re headed</h2>
-            <ul className="mp__list">
+            <h2 className="mp__title">Mission</h2>
+            <ul className="check-list">
               <li>
                 <Icon name="check" size={18} strokeWidth={2.2} />
                 Be a driving force in transforming Ethiopia into a tech hub on the continent.
@@ -105,16 +86,14 @@ export default function AboutPage() {
               </li>
             </ul>
           </article>
-          <article className="mp__card mp__card--dark" data-reveal="up" data-delay="120" data-spotlight>
-            <span className="mp__icon">
-              <Icon name="compass" size={30} />
+          <article className="mp__card" data-reveal>
+            <span className="mp__icon" aria-hidden="true">
+              <Icon name="compass" size={26} />
             </span>
-            <p className="eyebrow eyebrow--light">Philosophy</p>
-            <h2 className="mp__title">&ldquo;Solutions for Tomorrow&rdquo;</h2>
+            <h2 className="mp__title">Philosophy: Solutions for Tomorrow</h2>
             <p>
-              As the IT industry — and every other — becomes more dynamic, we aspire to provide solutions that work
-              efficiently not only on the current company standard but also in the future, as our clients expand and
-              transform.
+              As the IT industry becomes more dynamic, we build solutions that work efficiently on today&apos;s company
+              standards and keep working as our clients expand and transform.
             </p>
           </article>
         </div>
@@ -124,46 +103,42 @@ export default function AboutPage() {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <div>
-              <p className="eyebrow" data-reveal="up">
-                Who we serve
-              </p>
-              <h2 className="section-title" data-reveal="up" data-delay="60">
-                Clients from diverse sectors
-              </h2>
-            </div>
+            <h2 className="section-title" data-reveal>
+              Who we serve
+            </h2>
           </div>
-          <ol className="audience" data-stagger="100">
-            {audiences.map((a, i) => (
-              <li key={a.title} data-reveal="up">
-                <span className="audience__num">0{i + 1}</span>
+          <ul className="audience">
+            {audiences.map((a) => (
+              <li key={a.title} data-reveal>
+                <span className="audience__icon" aria-hidden="true">
+                  <Icon name={a.icon} size={24} />
+                </span>
                 <h3>{a.title}</h3>
                 <p>{a.text}</p>
               </li>
             ))}
-          </ol>
+          </ul>
         </div>
       </section>
 
       {/* FEATURES */}
-      <section className="section section--dark">
+      <section className="section section--grouped">
         <div className="container">
           <div className="section-head">
-            <div>
-              <p className="eyebrow eyebrow--light" data-reveal="up">
-                Key features
-              </p>
-              <h2 className="section-title section-title--light" data-reveal="up" data-delay="60">
-                What working with us looks like
-              </h2>
-            </div>
+            <h2 className="section-title" data-reveal>
+              What working with us looks like
+            </h2>
           </div>
-          <ul className="feature-grid" data-stagger="80">
+          <ul className="feature-list feature-list--grid">
             {features.map((f) => (
-              <li key={f.title} className="feature" data-reveal="up">
-                <Icon name={f.icon} size={28} />
-                <h3>{f.title}</h3>
-                <p>{f.text}</p>
+              <li key={f.title} className="feature-list__item" data-reveal>
+                <span className="feature-list__icon" aria-hidden="true">
+                  <Icon name={f.icon} size={24} />
+                </span>
+                <div>
+                  <h3>{f.title}</h3>
+                  <p>{f.text}</p>
+                </div>
               </li>
             ))}
           </ul>

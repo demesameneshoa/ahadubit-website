@@ -32,10 +32,10 @@ export default function MapEmbed({ query, label }: { query: string; label: strin
       </span>
       <p className="map__label">{label}</p>
       <div className="map__actions">
-        <button type="button" className="btn btn--dark btn--sm" onClick={() => setShow(true)}>
+        <button type="button" className="btn btn--secondary btn--sm" onClick={() => setShow(true)}>
           Show map
         </button>
-        <a className="btn btn--sm map__open" href={`https://www.google.com/maps/search/?api=1&query=${q}`} target="_blank" rel="noopener noreferrer">
+        <a className="btn btn--plain btn--sm" href={`https://www.google.com/maps/search/?api=1&query=${q}`} target="_blank" rel="noopener noreferrer">
           Open in Google Maps
         </a>
       </div>

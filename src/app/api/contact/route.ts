@@ -54,14 +54,14 @@ export async function POST(req: Request) {
   }
 
   const errors: Record<string, string> = {};
-  if (!data.name) errors.name = "Please enter your name.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = "Please enter a valid email address.";
-  if (data.message.length < 10) errors.message = "Tell us a little more (at least 10 characters).";
+  if (!data.name) errors.name = "Enter your full name.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = "Enter an email address like name@example.com.";
+  if (data.message.length < 10) errors.message = "Describe what you need in at least 10 characters.";
   if (Object.keys(errors).length) return NextResponse.json({ ok: false, errors }, { status: 422 });
 
   const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
   if (rateLimited(ip)) {
-    return NextResponse.json({ ok: false, error: "Too many messages. Please try again in a few minutes." }, { status: 429 });
+    return NextResponse.json({ ok: false, error: "Too many messages from this connection. Try again in 10 minutes." }, { status: 429 });
   }
 
   const to = process.env.CONTACT_TO || company.email;
@@ -124,7 +124,7 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error("[contact] send failed:", err);
     return NextResponse.json(
-      { ok: false, error: `Sorry, your message couldn't be sent right now. Please email us at ${company.email}.` },
+      { ok: false, error: `Unable to send your message right now. Try again later, or email ${company.email}.` },
       { status: 502 }
     );
   }
