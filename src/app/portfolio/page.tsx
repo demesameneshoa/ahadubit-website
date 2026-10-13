@@ -17,31 +17,12 @@ export default function PortfolioPage() {
     <>
       <PageHero
         crumb="Portfolio"
-        eyebrow="Projects portfolio"
-        title={
-          <>
-            Work that runs <span className="hl">every day</span>.
-          </>
-        }
-        intro="From Odoo ERP for manufacturers to video intercoms that serve citizens, here are projects we have delivered — and the ones we're building now."
+        title="Work that runs every day."
+        intro={`${projects.length} projects for Ethiopian organizations — ${done} completed and ${live} in progress — from Odoo ERP for manufacturers to video intercoms that serve citizens.`}
       />
 
-      <section className="section">
+      <section className="section section--tight-top">
         <div className="container">
-          <ul className="portfolio-stats" data-stagger="100">
-            <li data-reveal="up">
-              <strong data-count={projects.length}>{projects.length}</strong>
-              <span>Featured projects</span>
-            </li>
-            <li data-reveal="up">
-              <strong data-count={done}>{done}</strong>
-              <span>Completed</span>
-            </li>
-            <li data-reveal="up">
-              <strong data-count={live}>{live}</strong>
-              <span>In progress</span>
-            </li>
-          </ul>
           <PortfolioGrid />
         </div>
       </section>

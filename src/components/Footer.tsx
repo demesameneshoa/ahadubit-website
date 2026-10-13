@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { company, nav, services } from "@/data/site";
 import Icon from "./Icon";
 
@@ -9,7 +8,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
-          <Image src="/brand/logo-light.png" alt="Ahadubit Technologies" width={468} height={108} className="site-footer__logo" />
+          <p className="site-footer__name">{company.name}</p>
           <p>
             Ethiopian technology partner since {company.founded}. ERP, custom software, cloud, networking and hardware
             integration — built for how Ethiopian organizations work.

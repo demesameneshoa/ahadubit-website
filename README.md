@@ -6,20 +6,23 @@ Multi-page corporate website for **Ahadubit Technologies PLC** (*Solutions for T
 
 | Route        | Content |
 |--------------|---------|
-| `/`          | Hero with animated service orbit, stats, intro, services, why-us, featured work, client marquee, CTA |
-| `/about`     | Story, mission & philosophy, who we serve, key features |
-| `/services`  | Eight service lines with sticky index and an animated delivery-process timeline |
-| `/portfolio` | Twelve client projects with category filters and live/completed status |
-| `/contact`   | Phone, email, address, map and a validated enquiry form |
+| `/`          | Hero with the contour-line signature and client logos, services, selected work, why Ahadubit, call to action |
+| `/about`     | Story and key facts, mission and philosophy, who we serve, what working with us looks like |
+| `/services`  | Eight service lines with a sidebar index, and the five-step delivery process |
+| `/portfolio` | Twelve client projects with a type filter and completed / in-progress status |
+| `/contact`   | Enquiry form that emails info@ahadubit.com directly, phone, email, office and an on-demand map |
 
-## Interactions
+## Design principles
 
-- Scroll-reveal animations (fade / slide / scale with stagger), animated counters, parallax wave backgrounds
-- Header that turns solid on scroll, with a page-progress bar and a full-screen mobile menu
-- Pointer "spotlight" hover on cards, orbiting service chips, an infinite client-logo marquee
-- Respects `prefers-reduced-motion`; content stays visible without JavaScript
+The design follows Apple's Human Interface Guidelines as they apply to the web (principles and foundations):
 
-All animation is plain CSS plus a small framework-free script (`src/lib/scroll-effects.ts`) — no animation libraries.
+- **Brand from the company profile:** white ground, navy type, blue contour lines. Brand orange is reserved for primary buttons and "In progress" status.
+- **One signature element:** the contour-line waves in the homepage hero, which settle in once on load. Nothing loops.
+- **Light and dark appearance** follow the visitor's device setting (no toggle). Increased-contrast and reduced-transparency settings are honoured.
+- **Accessible by measurement:** body text is at least 7:1 contrast in both appearances; controls are at least 44 px; layouts survive 200% text size; every page works by keyboard; motion is off when Reduce Motion is on.
+- **Type:** Montserrat (the profile's typeface) for headlines; the device's system font for body text.
+
+Colours are named tokens at the top of `src/app/globals.css`, with light and dark values side by side.
 
 ## Editing content
 

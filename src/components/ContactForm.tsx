@@ -28,9 +28,9 @@ export default function ContactForm() {
     };
 
     const next: Record<string, string> = {};
-    if (!payload.name) next.name = "Please enter your name.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) next.email = "Please enter a valid email address.";
-    if (payload.message.length < 10) next.message = "Tell us a little more (at least 10 characters).";
+    if (!payload.name) next.name = "Enter your full name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) next.email = "Enter an email address like name@example.com.";
+    if (payload.message.length < 10) next.message = "Describe what you need in at least 10 characters.";
     setErrors(next);
     setServerError("");
     if (Object.keys(next).length) return;
@@ -49,10 +49,10 @@ export default function ContactForm() {
         return;
       }
       if (json.errors) setErrors(json.errors);
-      setServerError(json.error || `Sorry, your message couldn't be sent. Please email us at ${company.email}.`);
+      setServerError(json.error || `Unable to send your message right now. Try again, or email ${company.email}.`);
       setStatus("failed");
     } catch {
-      setServerError(`Network problem — please check your connection, or email us at ${company.email}.`);
+      setServerError(`Unable to connect. Check your internet connection and try again, or email ${company.email}.`);
       setStatus("failed");
     }
   }
@@ -63,9 +63,9 @@ export default function ContactForm() {
         <span className="contact-form__success-icon" aria-hidden="true">
           <Icon name="check" size={28} strokeWidth={2.4} />
         </span>
-        <h3>Thank you — your message is on its way.</h3>
-        <p>Our team will get back to you shortly. For anything urgent, call {company.phones[0]}.</p>
-        <button type="button" className="btn btn--dark btn--sm" onClick={() => setStatus("idle")}>
+        <h3>Message sent</h3>
+        <p>Thank you. Our team will reply to the email address you provided. For anything urgent, call {company.phones[0]}.</p>
+        <button type="button" className="btn btn--secondary btn--sm" onClick={() => setStatus("idle")}>
           Send another message
         </button>
       </div>
@@ -84,23 +84,23 @@ export default function ContactForm() {
       <div className="field-row">
         <div className={`field ${errors.name ? "has-error" : ""}`}>
           <label htmlFor="cf-name">Full name *</label>
-          <input id="cf-name" name="name" autoComplete="name" aria-invalid={!!errors.name} aria-describedby={errors.name ? "cf-name-err" : undefined} />
+          <input id="cf-name" name="name" autoComplete="name" placeholder="Abebe Kebede" aria-invalid={!!errors.name} aria-describedby={errors.name ? "cf-name-err" : undefined} />
           {errors.name && <p id="cf-name-err" className="field__error">{errors.name}</p>}
         </div>
         <div className={`field ${errors.email ? "has-error" : ""}`}>
           <label htmlFor="cf-email">Email *</label>
-          <input id="cf-email" name="email" type="email" autoComplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email ? "cf-email-err" : undefined} />
+          <input id="cf-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="name@example.com" aria-invalid={!!errors.email} aria-describedby={errors.email ? "cf-email-err" : undefined} />
           {errors.email && <p id="cf-email-err" className="field__error">{errors.email}</p>}
         </div>
       </div>
       <div className="field-row">
         <div className="field">
           <label htmlFor="cf-org">Organization</label>
-          <input id="cf-org" name="organization" autoComplete="organization" />
+          <input id="cf-org" name="organization" autoComplete="organization" placeholder="Company or agency" />
         </div>
         <div className="field">
           <label htmlFor="cf-phone">Phone</label>
-          <input id="cf-phone" name="phone" type="tel" autoComplete="tel" />
+          <input id="cf-phone" name="phone" type="tel" autoComplete="tel" placeholder="+251 9XX XXX XXX" />
         </div>
       </div>
       <div className="field">
@@ -117,7 +117,7 @@ export default function ContactForm() {
       </div>
       <div className={`field ${errors.message ? "has-error" : ""}`}>
         <label htmlFor="cf-message">How can we help? *</label>
-        <textarea id="cf-message" name="message" rows={5} aria-invalid={!!errors.message} aria-describedby={errors.message ? "cf-message-err" : undefined} />
+        <textarea id="cf-message" name="message" rows={5} placeholder="For example: an ERP for our factory covering purchase, inventory and sales." aria-invalid={!!errors.message} aria-describedby={errors.message ? "cf-message-err" : undefined} />
         {errors.message && <p id="cf-message-err" className="field__error">{errors.message}</p>}
       </div>
       <button type="submit" className="btn btn--primary btn--block" disabled={sending}>
