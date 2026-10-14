@@ -239,6 +239,12 @@ textarea {
   transform: none;
 }
 
+/* Side-entering reveals never cause sideways scrolling; "clip" (unlike
+   "hidden") keeps sticky positioning working. */
+main {
+  overflow-x: clip;
+}
+
 .container {
   width: 100%;
   max-width: calc(var(--container) + var(--gutter) * 2);
@@ -721,11 +727,6 @@ textarea {
 /* =========================================================
    Selected work
    ========================================================= */
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
 .work-card {
   display: flex;
   flex-direction: column;
@@ -766,33 +767,6 @@ textarea {
   color: var(--secondary);
   font-size: var(--text-footnote);
 }
-@media (max-width: 900px) {
-  .work-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .work-card {
-    flex-direction: row;
-  }
-  .work-card__logo {
-    width: 38%;
-    height: auto;
-    min-height: 140px;
-    border-bottom: 0;
-    border-right: 1px solid var(--separator);
-  }
-}
-@media (max-width: 480px) {
-  .work-card {
-    flex-direction: column;
-  }
-  .work-card__logo {
-    width: 100%;
-    min-height: 120px;
-    border-right: 0;
-    border-bottom: 1px solid var(--separator);
-  }
-}
-
 /* =========================================================
    Why / facts / features
    ========================================================= */
@@ -1295,16 +1269,6 @@ textarea {
   border: 1px solid var(--separator);
   background: var(--surface-raised);
 }
-@media (prefers-reduced-motion: no-preference) {
-  .project-card {
-    animation: fade-in 0.25s var(--ease) both;
-  }
-}
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-}
 .project-card__top {
   display: flex;
   flex-wrap: wrap;
@@ -1709,17 +1673,405 @@ textarea {
 }
 
 /* =========================================================
-   Reveal — a short fade-up, once; off with Reduce Motion
+   Interaction & scroll animation
+   Motion follows the visitor's scroll or pointer and plays once.
+   Everything in this block is skipped with Reduce Motion.
    ========================================================= */
+
+/* Page scroll progress (header bottom edge) */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--link);
+  transform-origin: left;
+  transform: scaleX(var(--page-p, 0));
+  pointer-events: none;
+}
+
+/* Back to top */
+.to-top {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface-raised);
+  color: var(--heading);
+  border: 1px solid var(--separator-strong);
+  box-shadow: 0 6px 20px rgba(22, 21, 46, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 12px;
+  transition: opacity 0.25s var(--ease), translate 0.25s var(--ease), visibility 0.25s;
+}
+.show-top .to-top {
+  opacity: 1;
+  visibility: visible;
+  translate: none;
+}
+.to-top:hover {
+  border-color: var(--link);
+  color: var(--link);
+}
+.menu-open .to-top {
+  display: none;
+}
+
+/* Statement with scroll-lit words */
+.statement {
+  padding-block: clamp(72px, 10vw, 144px);
+}
+.statement__text {
+  margin: 0 auto;
+  max-width: 26ch;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(min(1.75rem, 8vw), min(1.1rem + 2.6vw, 8vw), 3rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--heading);
+}
+.hl-word {
+  color: var(--tertiary);
+  transition: color 0.35s var(--ease);
+}
+.hl-word.is-on {
+  color: var(--heading);
+}
+.no-js .hl-word,
+html:not(.js) .hl-word {
+  color: var(--heading);
+}
+
+/* Pinned horizontal gallery */
+.hscroll {
+  padding-block: var(--section-y);
+  --edge: max(var(--gutter), calc((100vw - var(--container)) / 2));
+}
+.hscroll__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+.hscroll__viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.hscroll__viewport::-webkit-scrollbar {
+  display: none;
+}
+.hscroll__viewport:focus-visible {
+  outline-offset: -3px;
+}
+.hscroll__track {
+  display: flex;
+  gap: 20px;
+  padding: 4px var(--edge) 12px;
+}
+.hscroll__track::after {
+  content: "";
+  flex: 0 0 1px;
+  margin-left: calc(var(--edge) - 21px);
+}
+.hscroll .work-card {
+  flex: 0 0 min(360px, 82vw);
+  scroll-snap-align: start;
+  scroll-margin-left: var(--edge);
+}
+.work-card .status {
+  margin-top: 16px;
+}
+.hscroll__progress {
+  display: none;
+  height: 3px;
+  margin-top: 28px;
+  border-radius: 3px;
+  background: var(--separator);
+  overflow: hidden;
+}
+.hscroll__progress span {
+  display: block;
+  height: 100%;
+  background: var(--link);
+  transform-origin: left;
+  transform: scaleX(var(--p, 0));
+}
+.hscroll.is-pinned {
+  height: var(--pin-h);
+  padding-block: 0;
+}
+.hscroll.is-pinned .hscroll__sticky {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  height: calc(100svh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.hscroll.is-pinned .hscroll__viewport {
+  overflow: visible;
+  scroll-snap-type: none;
+}
+.hscroll.is-pinned .hscroll__track {
+  transform: translate3d(calc(var(--p, 0) * var(--dist, 0px) * -1), 0, 0);
+  will-change: transform;
+}
+.hscroll.is-pinned .hscroll__progress {
+  display: block;
+}
+
+/* Active states: reasons and services light up near the middle of the screen */
+.feature-list__icon,
+.service-block__icon {
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.feature-list__item h3,
+.service-block h2 {
+  transition: color 0.3s var(--ease);
+}
+.feature-list__item.is-active .feature-list__icon,
+.service-block.is-active .service-block__icon {
+  background: var(--link);
+  border-color: var(--link);
+  color: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  .feature-list__item.is-active .feature-list__icon,
+  .service-block.is-active .service-block__icon {
+    color: #0e0d22;
+  }
+}
+
+/* Services sidebar: current section */
+.services-index a {
+  position: relative;
+  transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.services-index a.is-current {
+  color: var(--heading);
+  font-weight: 600;
+  background: var(--surface-grouped);
+}
+.services-index a.is-current::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--link);
+}
+
+/* Process line fills as the steps scroll through */
+.process::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  right: 22px;
+  height: 2px;
+  margin-top: -0.5px;
+  background: var(--link);
+  transform-origin: left;
+  transform: scaleX(min(1, calc(var(--p, 0) * 1.9)));
+}
+@media (max-width: 900px) {
+  .process::after {
+    top: 22px;
+    bottom: 22px;
+    left: 22px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    margin: 0 0 0 -0.5px;
+    transform-origin: top;
+    transform: scaleY(min(1, calc(var(--p, 0) * 1.6)));
+  }
+}
+
+/* Segmented control: sliding selection */
+.segmented {
+  position: relative;
+  isolation: isolate;
+}
+.segmented__pill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  border-radius: 14px;
+  background: var(--surface-raised);
+  border: 1px solid var(--separator);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.35s var(--ease), width 0.35s var(--ease), height 0.35s var(--ease);
+}
+.segmented:has(.segmented__pill) .segmented__item[aria-pressed="true"] {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Tilt toward the pointer, with a soft light that follows it */
+[data-tilt] {
+  position: relative;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.15s var(--ease);
+}
+[data-tilt]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 0%), rgba(91, 141, 239, 0.1), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-tilt]:hover {
+    box-shadow: 0 18px 40px -18px rgba(22, 21, 46, 0.28);
+  }
+  [data-tilt]:hover::after {
+    opacity: 1;
+  }
+}
+
+/* CTA panel: light follows the pointer */
+.cta__panel {
+  background: radial-gradient(
+      640px circle at calc((var(--mx, 0.6) + 1) * 50%) calc((var(--my, -0.6) + 1) * 50%),
+      rgba(91, 141, 239, 0.28),
+      transparent 60%
+    ),
+    var(--panel);
+}
+
+/* Logo tiles lift slightly on hover */
+.logo-grid__item {
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.logo-grid__item:hover {
+  border-color: var(--separator-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* Press feedback on buttons */
+.btn {
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease),
+    scale 0.12s var(--ease);
+}
+.btn:active {
+  scale: 0.97;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* Page entrance on every navigation */
+  .page-enter {
+    animation: page-in 0.45s var(--ease) both;
+  }
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      translate: 0 12px;
+    }
+  }
+
+  /* Hero copy: staggered entrance on load */
+  .hero-in {
+    animation: hero-in 0.8s var(--ease) both;
+    animation-delay: calc(var(--d, 0) * 90ms + 80ms);
+  }
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      translate: 0 20px;
+    }
+  }
+
+  /* Hero: waves follow the pointer and drift/zoom with scroll; copy lifts away */
+  .hero__waves {
+    transform: translate3d(
+        calc(var(--mx, 0) * 16px),
+        calc(var(--p, 0) * 110px + var(--my, 0) * 10px),
+        0
+      )
+      scale(calc(1 + var(--p, 0) * 0.14));
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: transform;
+  }
+  .hero__copy {
+    opacity: calc(1 - var(--p, 0) * 1.3);
+    translate: 0 calc(var(--p, 0) * -70px);
+  }
+  .page-hero > .container {
+    opacity: calc(1 - var(--p, 0) * 1.1);
+    translate: 0 calc(var(--p, 0) * -40px);
+  }
+
+  /* Reveal on scroll — variants, staggered within [data-stagger] groups */
   .js [data-reveal] {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    translate: 0 28px;
+    transition: opacity 0.7s var(--ease), translate 0.7s var(--ease), scale 0.7s var(--ease);
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+  .js [data-reveal="fade"] {
+    translate: none;
+  }
+  .js [data-reveal="scale"] {
+    translate: none;
+    scale: 0.94;
+  }
+  .js [data-reveal="left"] {
+    translate: 36px 0;
+  }
+  .js [data-reveal="right"] {
+    translate: -36px 0;
   }
   .js [data-reveal].is-in {
     opacity: 1;
+    translate: none;
+    scale: none;
+  }
+  .js .no-stagger > [data-reveal] {
+    transition-delay: 0s;
+  }
+  .js [data-reveal][data-tilt] {
+    transition: opacity 0.7s var(--ease), translate 0.7s var(--ease), scale 0.7s var(--ease),
+      transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.15s var(--ease);
+    transition-delay: calc(var(--i, 0) * 70ms), calc(var(--i, 0) * 70ms), calc(var(--i, 0) * 70ms), 0s, 0s, 0s;
+  }
+  .js .no-stagger > [data-reveal][data-tilt] {
+    transition-delay: 0s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tilt] {
     transform: none;
+  }
+  .process::after {
+    transform: none;
+  }
+  .hl-word {
+    color: var(--heading);
   }
 }
 

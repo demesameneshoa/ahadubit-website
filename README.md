@@ -17,7 +17,13 @@ Multi-page corporate website for **Ahadubit Technologies PLC** (*Solutions for T
 The design follows Apple's Human Interface Guidelines as they apply to the web (principles and foundations):
 
 - **Brand from the company profile:** white ground, navy type, blue contour lines. Brand orange is reserved for primary buttons and "In progress" status.
-- **One signature element:** the contour-line waves in the homepage hero, which settle in once on load. Nothing loops.
+- **One signature element:** the contour-line waves in the homepage hero.
+- **Interaction that follows the visitor:** effects respond to scrolling or the pointer and never loop on their own —
+  hero waves that follow the pointer and drift as you scroll, a statement whose words light up, staggered entrances on
+  every page, a pinned sideways gallery of projects (a swipeable row on phones), reasons and services that highlight as
+  they reach the middle of the screen, a services sidebar that tracks your place, a process line that fills, cards that
+  tilt toward the pointer, an animated portfolio filter, page transitions, a reading-progress bar and back-to-top.
+  All of it lives in `src/lib/scroll-effects.ts` (no animation libraries) and switches off with Reduce Motion.
 - **Light and dark appearance** follow the visitor's device setting (no toggle). Increased-contrast and reduced-transparency settings are honoured.
 - **Accessible by measurement:** body text is at least 7:1 contrast in both appearances; controls are at least 44 px; layouts survive 200% text size; every page works by keyboard; motion is off when Reduce Motion is on.
 - **Type:** Montserrat (the profile's typeface) for headlines; the device's system font for body text.
