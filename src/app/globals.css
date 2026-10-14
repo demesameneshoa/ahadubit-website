@@ -239,6 +239,12 @@ textarea {
   transform: none;
 }
 
+/* Side-entering reveals never cause sideways scrolling; "clip" (unlike
+   "hidden") keeps sticky positioning working. */
+main {
+  overflow-x: clip;
+}
+
 .container {
   width: 100%;
   max-width: calc(var(--container) + var(--gutter) * 2);
@@ -2044,10 +2050,16 @@ html:not(.js) .hl-word {
     translate: none;
     scale: none;
   }
+  .js .no-stagger > [data-reveal] {
+    transition-delay: 0s;
+  }
   .js [data-reveal][data-tilt] {
     transition: opacity 0.7s var(--ease), translate 0.7s var(--ease), scale 0.7s var(--ease),
       transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.15s var(--ease);
     transition-delay: calc(var(--i, 0) * 70ms), calc(var(--i, 0) * 70ms), calc(var(--i, 0) * 70ms), 0s, 0s, 0s;
+  }
+  .js .no-stagger > [data-reveal][data-tilt] {
+    transition-delay: 0s;
   }
 }
 

@@ -101,7 +101,7 @@ export default function PortfolioGrid() {
         Showing {list.length} {list.length === 1 ? "project" : "projects"}
       </p>
 
-      <ul className="project-grid" data-stagger>
+      <ul className={`project-grid${touched ? " no-stagger" : ""}`} data-stagger>
         {list.map((p) => (
           <li
             key={p.client}
