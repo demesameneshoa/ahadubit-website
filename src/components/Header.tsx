@@ -29,6 +29,7 @@ export default function Header() {
   return (
     <>
       <header className="site-header">
+        <div className="scroll-progress" aria-hidden="true" />
         <div className="container site-header__inner">
           <Link prefetch={false} href="/" className="brand" aria-label="Ahadubit Technologies — home">
             <Image src="/brand/logo.png" alt="" width={468} height={108} priority className="brand__logo brand__logo--light-ui" />

@@ -31,7 +31,7 @@ export default function ServicesPage() {
 
       <section className="section section--tight-top">
         <div className="container services-layout">
-          <nav className="services-index" aria-label="Services on this page">
+          <nav className="services-index" aria-label="Services on this page" data-spy>
             <ul>
               {services.map((s) => (
                 <li key={s.slug}>
@@ -45,7 +45,7 @@ export default function ServicesPage() {
             {services.map((s) => {
               const rel = (related[s.slug] || []).filter((n) => projects.some((p) => p.client === n));
               return (
-                <article key={s.slug} id={s.slug} className="service-block" data-reveal>
+                <article key={s.slug} id={s.slug} className="service-block" data-reveal="up" data-activate>
                   <span className="service-block__icon" aria-hidden="true">
                     <Icon name={s.icon} size={26} />
                   </span>
@@ -53,9 +53,9 @@ export default function ServicesPage() {
                     <h2>{s.title}</h2>
                     <p className="service-block__summary">{s.summary}</p>
                     <p>{s.detail}</p>
-                    <ul className="check-list check-list--two">
+                    <ul className="check-list check-list--two" data-stagger>
                       {s.points.map((pt) => (
-                        <li key={pt}>
+                        <li key={pt} data-reveal="fade">
                           <Icon name="check" size={16} strokeWidth={2.2} />
                           {pt}
                         </li>
@@ -86,9 +86,9 @@ export default function ServicesPage() {
             </p>
           </div>
           {/* A real sequence, so it keeps its step numbers */}
-          <ol className="process">
+          <ol className="process" data-scroll="through" data-stagger>
             {process.map((p) => (
-              <li key={p.step} className="process__step" data-reveal>
+              <li key={p.step} className="process__step" data-reveal="up">
                 <span className="process__num" aria-hidden="true">
                   {Number(p.step)}
                 </span>

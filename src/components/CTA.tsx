@@ -12,7 +12,7 @@ export default function CTA({
   return (
     <section className="cta">
       <div className="container">
-        <div className="cta__panel" data-reveal>
+        <div className="cta__panel" data-reveal="scale" data-pointer>
           <h2 className="cta__title">{title}</h2>
           <p className="cta__text">{text}</p>
           <div className="cta__actions">

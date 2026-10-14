@@ -46,18 +46,18 @@ export default function AboutPage() {
               after go-live.
             </p>
           </div>
-          <dl className="facts facts--stacked" data-reveal>
+          <dl className="facts facts--stacked" data-reveal="left">
             <div>
               <dt>Founded</dt>
               <dd>{company.founded}</dd>
             </div>
             <div>
               <dt>Organizations served</dt>
-              <dd>{projects.length}+</dd>
+              <dd data-count={projects.length} data-suffix="+">{projects.length}+</dd>
             </div>
             <div>
               <dt>Odoo experience</dt>
-              <dd>5+ years</dd>
+              <dd data-count="5" data-suffix="+ years">5+ years</dd>
             </div>
             <div>
               <dt>Based in</dt>
@@ -69,8 +69,8 @@ export default function AboutPage() {
 
       {/* MISSION / PHILOSOPHY */}
       <section className="section section--grouped">
-        <div className="container mp">
-          <article className="mp__card" data-reveal>
+        <div className="container mp" data-stagger>
+          <article className="mp__card" data-reveal="scale" data-tilt>
             <span className="mp__icon" aria-hidden="true">
               <Icon name="target" size={26} />
             </span>
@@ -86,7 +86,7 @@ export default function AboutPage() {
               </li>
             </ul>
           </article>
-          <article className="mp__card" data-reveal>
+          <article className="mp__card" data-reveal="scale" data-tilt>
             <span className="mp__icon" aria-hidden="true">
               <Icon name="compass" size={26} />
             </span>
@@ -107,9 +107,9 @@ export default function AboutPage() {
               Who we serve
             </h2>
           </div>
-          <ul className="audience">
+          <ul className="audience" data-stagger>
             {audiences.map((a) => (
-              <li key={a.title} data-reveal>
+              <li key={a.title} data-reveal="up">
                 <span className="audience__icon" aria-hidden="true">
                   <Icon name={a.icon} size={24} />
                 </span>
@@ -129,9 +129,9 @@ export default function AboutPage() {
               What working with us looks like
             </h2>
           </div>
-          <ul className="feature-list feature-list--grid">
+          <ul className="feature-list feature-list--grid" data-stagger>
             {features.map((f) => (
-              <li key={f.title} className="feature-list__item" data-reveal>
+              <li key={f.title} className="feature-list__item" data-reveal="up" data-activate>
                 <span className="feature-list__icon" aria-hidden="true">
                   <Icon name={f.icon} size={24} />
                 </span>

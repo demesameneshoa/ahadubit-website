@@ -22,15 +22,15 @@ export default function ContactPage() {
 
       <section className="section section--tight-top">
         <div className="container contact">
-          <div className="contact__form" data-reveal>
+          <div className="contact__form" data-reveal="up">
             <h2 className="contact__title">Send a message</h2>
             <p className="contact__sub">Fields marked * are required.</p>
             <ContactForm />
           </div>
 
           <aside className="contact__info" aria-label="Contact details">
-            <ul className="contact-list">
-              <li>
+            <ul className="contact-list" data-stagger>
+              <li data-reveal="left">
                 <span className="contact-list__icon" aria-hidden="true">
                   <Icon name="phone" size={20} />
                 </span>
@@ -43,7 +43,7 @@ export default function ContactPage() {
                   ))}
                 </div>
               </li>
-              <li>
+              <li data-reveal="left">
                 <span className="contact-list__icon" aria-hidden="true">
                   <Icon name="mail" size={20} />
                 </span>
@@ -52,7 +52,7 @@ export default function ContactPage() {
                   <a href={`mailto:${company.email}`}>{company.email}</a>
                 </div>
               </li>
-              <li>
+              <li data-reveal="left">
                 <span className="contact-list__icon" aria-hidden="true">
                   <Icon name="pin" size={20} />
                 </span>
@@ -68,7 +68,9 @@ export default function ContactPage() {
                 </div>
               </li>
             </ul>
-            <MapEmbed query={company.mapQuery} label="AB Star Building, Megenagna, Addis Ababa" />
+            <div data-reveal="up">
+              <MapEmbed query={company.mapQuery} label="AB Star Building, Megenagna, Addis Ababa" />
+            </div>
           </aside>
         </div>
       </section>

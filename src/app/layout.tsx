@@ -65,12 +65,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <span id="top" aria-hidden="true" />
         <a href="#main" className="skip-link">
           Skip to content
         </a>
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <a href="#top" className="to-top" aria-label="Back to top">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 19V5M6 11l6-6 6 6" />
+          </svg>
+        </a>
         <ScrollEffects />
       </body>
     </html>
