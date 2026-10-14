@@ -1,0 +1,45 @@
+PASS / desktop light: errors=0 hOverflow=0 unrevealed=0 
+PASS /about desktop light: errors=0 hOverflow=0 unrevealed=0 
+PASS /services desktop light: errors=0 hOverflow=0 unrevealed=0 
+PASS /portfolio desktop light: errors=0 hOverflow=0 unrevealed=0 
+PASS /contact desktop light: errors=0 hOverflow=0 unrevealed=0 
+PASS / mobile light: errors=0 hOverflow=0 unrevealed=0 
+PASS /about mobile light: errors=0 hOverflow=0 unrevealed=0 
+PASS /services mobile light: errors=0 hOverflow=0 unrevealed=0 
+PASS /portfolio mobile light: errors=0 hOverflow=0 unrevealed=0 
+PASS /contact mobile light: errors=0 hOverflow=0 unrevealed=0 
+PASS / desktop dark: errors=0 hOverflow=0 unrevealed=0 
+PASS /about desktop dark: errors=0 hOverflow=0 unrevealed=0 
+PASS /services desktop dark: errors=0 hOverflow=0 unrevealed=0 
+PASS /portfolio desktop dark: errors=0 hOverflow=0 unrevealed=0 
+PASS /contact desktop dark: errors=0 hOverflow=0 unrevealed=0 
+PASS / mobile dark: errors=0 hOverflow=0 unrevealed=0 
+PASS /about mobile dark: errors=0 hOverflow=0 unrevealed=0 
+PASS /services mobile dark: errors=0 hOverflow=0 unrevealed=0 
+PASS /portfolio mobile dark: errors=0 hOverflow=0 unrevealed=0 
+PASS /contact mobile dark: errors=0 hOverflow=0 unrevealed=0 
+PASS hero follows pointer (--mx=0.667)
+PASS hero scroll progress (--p=0.3908)
+PASS statement words light progressively (6/29 → 29/29)
+PASS service card tilts toward pointer (matrix3d(0.998441, 0.0017534, -0.055794,)
+PASS work gallery pinned on desktop (section height 2000px)
+PASS gallery scrolls sideways to the last card (p=0.9952, last right=1305/1440, sticky top=64)
+PASS reasons light up near centre (2 active)
+PASS facts count up to final values (12+, 5+ years, 8)
+PASS back-to-top appears and returns to top (y=0)
+PASS home interactions: no errors 
+PASS services sidebar highlights current section ("Cloud Services")
+PASS process line fills with scroll (--p=0.5993)
+PASS services: no errors 
+PASS filter animates cards (17 animations running)
+PASS filtered cards visible (ERP 5, back to All 12)
+PASS segmented control has sliding selection
+PASS portfolio: no errors 
+PASS mobile gallery swipes sideways instead of pinning ({"pinned":false,"scrollable":true})
+PASS reduced motion: {"hidden":0,"pinned":false,"dim":0,"heroTf":"none"}
+PASS gallery scrolls with arrow keys on mobile (scrollLeft=339)
+PASS 200% text /: hOverflow=0
+PASS 200% text /about: hOverflow=0
+PASS 200% text /services: hOverflow=0
+PASS 200% text /portfolio: hOverflow=0
+PASS 200% text /contact: hOverflow=0

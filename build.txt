@@ -1,0 +1,44 @@
+
+> ahadubit-website@1.0.0 build
+> next build
+
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+   ▲ Next.js 15.5.27
+   - Experiments (use with caution):
+     ✓ inlineCss
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 4.1s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/10) ...
+   Generating static pages (2/10) 
+   Generating static pages (4/10) 
+   Generating static pages (7/10) 
+ ✓ Generating static pages (10/10)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                            Size  First Load JS
+┌ ○ /                                 112 B         120 kB
+├ ○ /_not-found                       112 B         120 kB
+├ ○ /about                            112 B         120 kB
+├ ƒ /api/contact                      112 B         120 kB
+├ ○ /apple-icon.png                     0 B            0 B
+├ ○ /contact                          112 B         120 kB
+├ ○ /icon.png                           0 B            0 B
+├ ○ /portfolio                        112 B         120 kB
+└ ○ /services                         112 B         120 kB
++ First Load JS shared by all        120 kB
+  ├ chunks/app-6cc52fdd5942c630.js   118 kB
+  └ other shared chunks (total)     1.83 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
